@@ -1,17 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Alert} from "react-bootstrap";
+import App from "./App";
+import StudentsView from "./Students/StudentsView";
+import TeachersView from "./Teachers/TeachersView";
+import GroupsView from "./Groups/GroupsView";
+import Group from "./Groups/Group";
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<App/>}>
+                <Route index element={<StudentsView/>}/>
+                <Route path='students' element={<StudentsView/>}/>
+                <Route path='teachers' element={<TeachersView/>}/>
+                <Route path='groups' element={<GroupsView/>}/>
+                <Route path='groups/:groupId' element={<Group/>}/>
+                <Route path='*' element={<Alert variant="danger"> 404 page not found</Alert>}/>
+            </Route>
+        </Routes>
+    </BrowserRouter>,
+
+    document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

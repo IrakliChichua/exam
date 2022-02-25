@@ -1,15 +1,8 @@
 import React, {useState} from 'react';
 import {Button, Form, Modal, Row} from "react-bootstrap";
 
-function StudentOperationAddModal({showModal, setShowModal, addStudent}) {
-    /*
-    const [student, setStudent] = useState({
-        firstName: '',
-        lastName: '',
-        personalNo: '',
-        email: '',
-        birthDate: '',
-    });*/
+function AddModal({showModal, setShowModal, add}) {
+
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [personalNo, setPersonalNo] = useState('')
@@ -20,14 +13,14 @@ function StudentOperationAddModal({showModal, setShowModal, addStudent}) {
         setShowModal(false)
     }
     const addHandler = () => {
-        addStudent({firstName,lastName,personalNo,email, birthDate})
+        add({firstName,lastName,personalNo,email, birthDate})
         hide()
     }
 
     return (
         <Modal show={showModal} onHide={hide} size="lg">
             <Modal.Header closeButton>
-                <Modal.Title> Add Student </Modal.Title>
+                <Modal.Title> Add </Modal.Title>
             </Modal.Header>
             <Modal.Body className="show-grid">
                 <Form className="m-3">
@@ -68,4 +61,4 @@ function StudentOperationAddModal({showModal, setShowModal, addStudent}) {
     );
 }
 
-export default StudentOperationAddModal;
+export default AddModal;

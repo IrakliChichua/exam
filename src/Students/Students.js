@@ -1,47 +1,66 @@
-import React from 'react';
-import {Table} from "react-bootstrap";
-import StudentOperationModifyModal from "./StudentOperationModifyModal";
-import StudentOperationDelete from "./StudentOperationDelete";
+import React, {useEffect, useState} from 'react';
+import AddModal from "../Operations/AddModal";
+import api from "../api";
+import {Button, ButtonToolbar} from "react-bootstrap";
+import Persons from "../Operations/Persons";
+import PersonSearch from "../Operations/PersonSearch";
 
-function Students({students, updateStudent, deleteStudent}) {
-    const Student = ({firstName, lastName, personalNo, email, birthDate}) => (
-        <>
-            <td>{firstName}</td>
-            <td>{lastName}</td>
-            <td>{personalNo}</td>
-            <td>{email}</td>
-            <td>{birthDate}</td>
-        </>
-    )
+function Students(props) {
+
+    const [showModalAdd, setShowModalAdd] = useState(false)
+    const [students, setStudents] = useState([])
+
+    async function getStudents(params) {
+        const res = await api.get("students/search/findBy", {
+            params
+        })
+        setStudents(res.data._embedded.students)
+    }
+
+    async function addStudent(e) {
+        const {firstName, lastName, personalNo, email, birthDate} = e
+        await api.post("students", {
+            firstName, lastName, personalNo, email, birthDate
+        })
+        await getStudents()
+    }
+
+    // update student
+    async function putStudent(e) {
+        const {firstName, lastName, personalNo, email, birthDate, studentId} = e
+        await api.put(`students/${studentId}`, {
+            firstName, lastName, personalNo, email, birthDate
+        })
+        await getStudents()
+    }
+
+    async function deleteStudent(studentId) {
+        await api.delete(`students/${studentId}`)
+        await getStudents()
+    }
+
+    useEffect(() => {
+        getStudents().catch(console.error)
+    }, [])
+
 
     return (
-        <Table striped bordered hover className="m-3">
-            <thead>
-            <tr>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Personal.No</th>
-                <th>Email</th>
-                <th>Birth Date</th>
-                <th>Modify</th>
-                <th>Delete</th>
-            </tr>
-            </thead>
-            <tbody>
-            {
-                students.map((student) => (
-                    <tr key={student.studentId}>
-                        <Student key={student.studentId}  {...student}/>
-                        <StudentOperationDelete id={student.studentId} deleteStudent={deleteStudent}/>
-                        <StudentOperationModifyModal student={student} updateStudent={updateStudent}/>
-                    </tr>
-                ))
-            }
-            </tbody>
+        <>
+            <PersonSearch onSubmit={getStudents}/>
 
-        </Table>
-    )
-        ;
+            <ButtonToolbar className="justify-content-end m-3">
+                <Button variant="primary" type="submit" onClick={() => setShowModalAdd(true)}>
+                    Add Student
+                </Button>
+            </ButtonToolbar>
+
+            <AddModal showModal={showModalAdd}
+                      setShowModal={setShowModalAdd}
+                      add={addStudent}/>
+
+            <Persons persons={students} updatePerson={putStudent} deletePerson = {deleteStudent}/>
+        </>
+    );
 }
 
 export default Students;

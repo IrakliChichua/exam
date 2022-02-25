@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Form, Modal, Row} from "react-bootstrap";
 
-function StudentOperationModifyModal({student, updateStudent}) {
+function ModifyModal({student, modify}) {
 
     const {studentId} = student;
 
@@ -16,7 +16,7 @@ function StudentOperationModifyModal({student, updateStudent}) {
         setShowModal(false)
     }
     const updateHandler = () => {
-        updateStudent({firstName, lastName, personalNo, email, birthDate, studentId})
+        modify({firstName, lastName, personalNo, email, birthDate, studentId})
         hide()
     }
     return (
@@ -26,7 +26,7 @@ function StudentOperationModifyModal({student, updateStudent}) {
             </th>
             <Modal show={showModal} onHide={hide} size="lg">
                 <Modal.Header closeButton>
-                    <Modal.Title> Add Student </Modal.Title>
+                    <Modal.Title> Modify </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="show-grid">
                     <Form className="m-3">
@@ -69,4 +69,4 @@ function StudentOperationModifyModal({student, updateStudent}) {
     );
 }
 
-export default StudentOperationModifyModal;
+export default ModifyModal;

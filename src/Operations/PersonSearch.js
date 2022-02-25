@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, ButtonToolbar, Col, Form, Row} from "react-bootstrap";
 
-function StudentsSearch({onSubmit}) {
+function PersonSearch({onSubmit}) {
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -39,4 +39,4 @@ function StudentsSearch({onSubmit}) {
     );
 }
 
-export default StudentsSearch;
+export default PersonSearch;

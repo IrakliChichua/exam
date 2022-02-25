@@ -1,10 +1,10 @@
 import React from 'react';
 import {Button} from "react-bootstrap";
 
-function StudentOperationDelete({id, deleteStudent}) {
+function Delete({del, id}) {
 
     const deleteHandler= () => {
-        deleteStudent(id)
+        del(id)
     }
 
     return (
@@ -14,4 +14,4 @@ function StudentOperationDelete({id, deleteStudent}) {
     );
 }
 
-export default StudentOperationDelete;
+export default Delete;

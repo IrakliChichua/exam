@@ -3,7 +3,13 @@ import {Table} from "react-bootstrap";
 import Delete from "./Delete";
 import ModifyModal from "./ModifyModal";
 
-function Persons({persons, updatePerson, deletePerson}) {
+function Persons({persons, modifyPerson, deletePerson, type}) {
+
+    function id(person){
+        if (type === 'student') return person.studentId
+        else return person.teacherId
+    }
+
 
     const Person = ({firstName, lastName, personalNo, email, birthDate}) => (
         <>
@@ -31,10 +37,10 @@ function Persons({persons, updatePerson, deletePerson}) {
             <tbody>
             {
                 persons.map((person) => (
-                    <tr key={person.studentId}>
-                        <Person key={person.studentId}  {...person}/>
-                        <Delete id={person.studentId} del={deletePerson}/>
-                        <ModifyModal student={person} modify={updatePerson}/>
+                    <tr key={id(person)}>
+                        <Person  {...person}/>
+                        <Delete id={id(person)} del={deletePerson}/>
+                        <ModifyModal id={id(person)} person={person} modify={modifyPerson}/>
                     </tr>
                 ))
             }

@@ -5,10 +5,12 @@ function PersonSearch({onSubmit}) {
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
+    const [personalNo, setPersonalNo] = useState('')
 
     const search = (e) => {
         e.preventDefault()
-        if (firstName && lastName) onSubmit({firstName, lastName});
+        if (personalNo) onSubmit({personalNo})
+        else if (firstName && lastName) onSubmit({firstName, lastName})
         else if (firstName) onSubmit({firstName})
         else if (lastName) onSubmit({lastName})
         else onSubmit('')
@@ -27,6 +29,12 @@ function PersonSearch({onSubmit}) {
                     <Form.Label>Lastname</Form.Label>
                     <Form.Control placeholder="Enter Lastname" value={lastName}
                                   onChange={e => setLastName(e.target.value)}/>
+                </Form.Group>
+
+                <Form.Group as={Col} className="mb-3">
+                    <Form.Label>personal No</Form.Label>
+                    <Form.Control placeholder="Enter personal No" value={personalNo}
+                                  onChange={e => setPersonalNo(e.target.value)}/>
                 </Form.Group>
             </Row>
             <ButtonToolbar className="justify-content-end">

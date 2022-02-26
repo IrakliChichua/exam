@@ -11,14 +11,15 @@ function Students(props) {
     const [students, setStudents] = useState([])
 
     async function getStudents(params) {
+        console.log(params)
         const res = await api.get("students/search/findBy", {
             params
         })
         setStudents(res.data._embedded.students)
     }
 
-    async function addStudent(e) {
-        const {firstName, lastName, personalNo, email, birthDate} = e
+    async function addStudent(params) {
+        const {firstName, lastName, personalNo, email, birthDate} = params['person']
         await api.post("students", {
             firstName, lastName, personalNo, email, birthDate
         })
@@ -26,9 +27,9 @@ function Students(props) {
     }
 
     // update student
-    async function putStudent(e) {
-        const {firstName, lastName, personalNo, email, birthDate, studentId} = e
-        await api.put(`students/${studentId}`, {
+    async function putStudent(params) {
+        const {firstName, lastName, personalNo, email, birthDate, id} = params
+        await api.put(`students/${id}`, {
             firstName, lastName, personalNo, email, birthDate
         })
         await getStudents()
@@ -58,7 +59,8 @@ function Students(props) {
                       setShowModal={setShowModalAdd}
                       add={addStudent}/>
 
-            <Persons persons={students} updatePerson={putStudent} deletePerson = {deleteStudent}/>
+            <Persons persons={students} modifyPerson={putStudent}
+                     deletePerson = {deleteStudent} type={'student'}/>
         </>
     );
 }

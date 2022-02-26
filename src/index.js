@@ -6,7 +6,7 @@ import {Alert} from "react-bootstrap";
 import App from "./App";
 import Students from "./Students/Students";
 import Teachers from "./Teachers/Teachers";
-import GroupsView from "./Groups/GroupsView";
+import Groups from "./Groups/Groups";
 import Group from "./Groups/Group";
 
 
@@ -17,7 +17,7 @@ ReactDOM.render(
                 <Route index element={<Students/>}/>
                 <Route path='students' element={<Students/>}/>
                 <Route path='teachers' element={<Teachers/>}/>
-                <Route path='groups' element={<GroupsView/>}/>
+                <Route path='groups' element={<Groups/>}/>
                 <Route path='groups/:groupId' element={<Group/>}/>
                 <Route path='*' element={<Alert variant="danger"> 404 page not found</Alert>}/>
             </Route>

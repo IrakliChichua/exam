@@ -3,17 +3,21 @@ import {Button, Form, Modal, Row} from "react-bootstrap";
 
 function AddModal({showModal, setShowModal, add}) {
 
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [personalNo, setPersonalNo] = useState('')
-    const [email, setEmail] = useState('')
-    const [birthDate, setBirthDate] = useState('')
+    const [person, setPerson] = useState(
+        {
+            firstName: '',
+            lastName: '',
+            personalNo: '',
+            email: '',
+            birthDate: ''
+        }
+    )
 
     const hide = () => {
         setShowModal(false)
     }
     const addHandler = () => {
-        add({firstName,lastName,personalNo,email, birthDate})
+        add({person})
         hide()
     }
 
@@ -27,28 +31,28 @@ function AddModal({showModal, setShowModal, add}) {
                     <Row>
                         <Form.Group className="mb-3">
                             <Form.Label>FirstName</Form.Label>
-                            <Form.Control placeholder="Enter FirstName" value={firstName}
-                                          onChange={e => setFirstName(e.target.value)}/>
+                            <Form.Control placeholder="Enter FirstName" value={person.firstName}
+                                          onChange={e => setPerson({...person, firstName: e.target.value})}/>
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Lastname</Form.Label>
-                            <Form.Control placeholder="Enter LastName" value={lastName}
-                                          onChange={e => setLastName(e.target.value)}/>
+                            <Form.Control placeholder="Enter LastName" value={person.lastName}
+                                          onChange={e => setPerson({...person, lastName: e.target.value})}/>
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Personal.no</Form.Label>
-                            <Form.Control placeholder="Enter Personal.no" value={personalNo}
-                                          onChange={e => setPersonalNo(e.target.value)}/>
+                            <Form.Control placeholder="Enter Personal.no" value={person.personalNo}
+                                          onChange={e => setPerson({...person, personalNo: e.target.value})}/>
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Email</Form.Label>
-                            <Form.Control placeholder="Enter email" value={email}
-                                          onChange={e => setEmail(e.target.value)}/>
+                            <Form.Control placeholder="Enter email" value={person.email}
+                                          onChange={e => setPerson({...person, email: e.target.value})}/>
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Birth Date</Form.Label>
-                            <Form.Control placeholder="Enter Birth Date" value={birthDate}
-                                          onChange={e => setBirthDate(e.target.value)}/>
+                            <Form.Control placeholder="Enter Birth Date" value={person.birthDate}
+                                          onChange={e => setPerson({...person, birthDate: e.target.value})}/>
                         </Form.Group>
                     </Row>
                 </Form>

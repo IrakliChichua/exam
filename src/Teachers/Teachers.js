@@ -10,25 +10,30 @@ function Teachers(props) {
     const [showModalAdd, setShowModalAdd] = useState(false)
     const [teachers, setTeachers] = useState([])
 
+
     async function getTeachers(params) {
+        console.log(params)
         const res = await api.get("teachers/search/findBy", {
             params
         })
-        setTeachers(res.data._embedded.students)
+        setTeachers(res.data._embedded.teachers)
+        console.log(res.data._embedded.teachers)
     }
 
-    async function addTeacher(e) {
-        const {firstName, lastName, personalNo, email, birthDate} = e
+    async function addTeacher(params) {
+        console.log(params)
+        const {firstName, lastName, personalNo, email, birthDate} = params['person']
         await api.post("teachers", {
             firstName, lastName, personalNo, email, birthDate
         })
         await getTeachers()
     }
 
-    // update student
-    async function putTeacher(e) {
-        const {firstName, lastName, personalNo, email, birthDate, teacherId} = e
-        await api.put(`teachers/${teacherId}`, {
+
+    // update teacher
+    async function putTeacher(params) {
+        const {firstName, lastName, personalNo, email, birthDate, id} = params
+        await api.put(`teachers/${id}`, {
             firstName, lastName, personalNo, email, birthDate
         })
         await getTeachers()
@@ -56,9 +61,10 @@ function Teachers(props) {
 
             <AddModal showModal={showModalAdd}
                       setShowModal={setShowModalAdd}
-                      add={addTeacher()}/>
+                      add={addTeacher}/>
 
-            <Persons persons={teachers} updatePerson={putTeacher} deletePerson = {deleteTeacher}/>
+            <Persons persons={teachers} modifyPerson={putTeacher}
+                     deletePerson = {deleteTeacher} type={'teacher'}/>
         </>
     );
 }

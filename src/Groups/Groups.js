@@ -1,37 +1,48 @@
-import React from 'react';
-import {Card, Col, ListGroup, Row} from "react-bootstrap";
-import {useNavigate} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import GroupCards from "./GroupCards";
+import api from "../api";
+import GroupSearch from "./GroupSearch";
+import GroupAdd from "./GroupAdd";
+import {Button, ButtonToolbar} from "react-bootstrap";
 
-function Groups({groups}) {
+function Groups(props) {
 
-    let navigate = useNavigate();
-    const nav = (groupId) => {
-        navigate(`${groupId}`)
+    const [groups, setGroups] = useState([])
+    const [showAddModal, setShowAddModal] = useState(false)
+
+    async function getGroups(params) {
+        const res = await api.get("groups/search/findBy", {
+            params
+        })
+        setGroups(res.data._embedded.groups)
     }
 
-    const GroupCard = ({title, groupNo, groupId}) => (
-        <Card className="w-25 m-4" style={{cursor: 'pointer'}}
-              onClick={()=>nav(groupId)}>
-            <ListGroup variant="flush">
-                <ListGroup.Item style={{background: "lightblue"}}>Group.N: {groupNo}</ListGroup.Item>
-                <ListGroup.Item>
-                    <h6>title: {title}</h6>
-                    <h6>groupId: {groupId}</h6>
-                </ListGroup.Item>
-            </ListGroup>
-        </Card>
-    )
+    async function addGroup(params) {
+        const {title, groupNo} = params
+        await api.post("groups", {
+            title, groupNo
+        })
+        await getGroups()
+    }
+
+
+    useEffect(() => {
+        getGroups().catch(console.error)
+    }, [])
 
     return (
-        <Row>
-            {
-                groups.map((group) => (
-                    <Col key={group.groupId}>
-                        <GroupCard {...group} />
-                    </Col>
-                ))
-            }
-        </Row>
+        <>
+            <GroupSearch onSubmit={getGroups}/>
+
+            <ButtonToolbar className="justify-content-end m-3">
+                <Button variant="primary" type="submit" onClick={() => setShowAddModal(true)}>
+                    Create Group
+                </Button>
+            </ButtonToolbar>
+
+            <GroupAdd add={addGroup} showModal={showAddModal} setShowModal={setShowAddModal}/>
+            <GroupCards groups={groups}/>
+        </>
     );
 }
 

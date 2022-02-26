@@ -1,22 +1,22 @@
 import React, {useState} from 'react';
 import {Button, Form, Modal, Row} from "react-bootstrap";
 
-function ModifyModal({student, modify}) {
+function ModifyModal({person, modify, id}) {
 
-    const {studentId} = student;
+    const [firstName, setFirstName] = useState(person.firstName)
+    const [lastName, setLastName] = useState(person.lastName)
+    const [personalNo, setPersonalNo] = useState(person.personalNo)
+    const [email, setEmail] = useState(person.email)
+    const [birthDate, setBirthDate] = useState(person.birthDate)
 
-    const [firstName, setFirstName] = useState(student.firstName)
-    const [lastName, setLastName] = useState(student.lastName)
-    const [personalNo, setPersonalNo] = useState(student.personalNo)
-    const [email, setEmail] = useState(student.email)
-    const [birthDate, setBirthDate] = useState(student.birthDate)
     const [showModal, setShowModal] = useState(false)
+
 
     const hide = () => {
         setShowModal(false)
     }
     const updateHandler = () => {
-        modify({firstName, lastName, personalNo, email, birthDate, studentId})
+        modify({firstName, lastName, personalNo, email, birthDate, id})
         hide()
     }
     return (
